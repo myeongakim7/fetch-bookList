@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>문서 불러오기</h2>
+    <div id="content">여기로 들어올게요</div>
+
+    <h2>책 불러오기</h2>
+    <div class="bookList"></div>
+
+    <script>
+      // fetch(파일명 )
+      fetch("contents.html")
+        .then(function (응답) {
+          // 파일 해석하기
+          return 응답.text();
+        })
+        .then(function (데이터) {
+          // 결과 데이터
+          document.getElementById("content").innerHTML = 데이터;
+        });
+
+      fetch("book.json")
+        .then(function (res) {
+          return res.json();
+          // json으로 해석하기
+        })
+        .then(function (txt) {
+          // txt 읽기
+          let booklist = document.querySelector(".bookList");
+
+          for (let i = 0; i in txt.books; i++) {
+            const title = txt.books[i].title;
+            const author = txt.books[i].author;
+            const price = txt.books[i].price;
+
+            booklist.innerHTML += `
+            <ul>
+              <li>title : ${title}</li>
+        <li>author  :${author}</li>
+        <li>price : ${price}</li>
+        </ul>
+        `;
+          }
+        });
+    </script>
+  </body>
+</html>
